@@ -77,15 +77,19 @@
     }
 
     function printTable(file) {
+      /* limit is a cutoff for NOT printing a Table when there are too many records */
+      var limit = 100;
+      /* labelWidth and labelHeight change the display characteristics of the barcode labels*/
+      var labelWidth = 1;
+      var labelHeight = .5;
       var reader = new FileReader();
       reader.readAsText(file);
       reader.onload = function(event){
         var csv = event.target.result;
         var data = $.csv.toArrays(csv);
-        // alert ('Your source has ' + data.length + ' records');
         var html = '';
-        if (data.length > 100) {
-            html = '<tr><td>Output suppressed for sets over 100</td></tr>\r\n';
+        if (data.length > limit) {
+            html = '<tr><td style="color:orange;">Output suppressed for sets over 100</td></tr>\r\n';
             html += '<tr><td>Upload a smaller data set to see results onscreen.</td></tr>\r\n';
         } else {
             for(var row in data) {
@@ -96,7 +100,7 @@
                 html += '<td>' + eqtEncode(data[row][item]) + '</td>\r\n';
                 }
                 if (row > 0 && item == 0) {
-                html += '<td>' + DrawHTMLBarcode_Code128Auto(data[row][item],"yes","in",0,4,1,"bottom","center","","black","white") + '</td>\r\n';
+                html += '<td>' + DrawHTMLBarcode_Code128Auto(data[row][item],"yes","in",0,labelWidth,labelHeight,"bottom","center","","black","white") + '</td>\r\n';
                 }
             }
             html += '</tr>\r\n';
