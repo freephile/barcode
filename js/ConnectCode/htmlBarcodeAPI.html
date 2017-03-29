@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>HTML Barcode API</title>
+</head>
+<body>
+
+<h2>HTML Barcode API</h2>
+
+This section describes the Javascript Application Programming Interface (API) of the HTML Barcode SDK. The parameters used in the API are described in the previous section. A sample usage of the API is provided for each barcode.
+
+<h4>Codabar</h4>
+DrawHTMLBarcode_Codabar(data,humanReadable,units, minBarWidth,width,height,barWidthRatio, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Codabar("12345678","yes","in",0,3,1,3,"bottom", "center","","black","white");
+<h4>Code39</h4>
+DrawHTMLBarcode_Code39(data,checkDigit,humanReadable,units, minBarWidth,width,height,barWidthRatio, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Code39("12345678",1,"yes","in",0,3,1,3,"bottom", "center","","black","white");
+<h4>Code39 Ascii</h4>
+DrawHTMLBarcode_Code39ASCII(data,checkDigit,humanReadable,units, minBarWidth,width,height,barWidthRatio, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Code39ASCII("12345678",1,"yes","in",0,3,1,3,"bottom", "center","","black","white");
+<h4>Code93</h4>
+DrawHTMLBarcode_Code93(data,checkDigit,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Code93("12345678",1,"yes","in",0,3,1,"bottom", "center","","black","white");
+<h4>Code128 A</h4>
+DrawHTMLBarcode_Code128A(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Code128A("12345678","yes","in",0,2.5,1,"bottom", "center","","black","white");
+<h4>Code128 B</h4>
+DrawHTMLBarcode_Code128B(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Code128B("12345678","yes","in",0,2.5,1,"bottom", "center","","black","white");
+<h4>Code128 C</h4>
+DrawHTMLBarcode_Code128C(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Code128C("12345678","yes","in",0,3,1,"bottom", "center","","black","white");
+<h4>Code128 Auto</h4>
+DrawHTMLBarcode_Code128Auto(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Code128Auto("12345678","yes","in",0,3,1,"bottom", "center","","black","white");
+<h4>UCCEAN</h4>
+DrawHTMLBarcode_UCCEAN(data,gs1Compliance,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_UCCEAN("12345678",1,"yes","in",0,2,1,"bottom", "center","","black","white");
+<h4>I2of5</h4>
+DrawHTMLBarcode_I2OF5(data,checkDigit,humanReadable,units, minBarWidth,width,height,barWidthRatio, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_I2OF5("12345678",1,"yes","in",0,3,1,3,"bottom", "center","","black","white");
+<h4>Industrial 2of5</h4>
+DrawHTMLBarcode_Industrial2OF5(data,checkDigit,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_Industrial2OF5("12345678",1,"yes","in",0,3,1,"bottom", "center","","black","white");
+<h4>Modified Plessy</h4>
+DrawHTMLBarcode_ModifiedPlessy(data,checkDigit,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_ModifiedPlessy("12345678",1,"yes","in",0,3,1,"bottom", "center","","black","white");
+<h4>EAN13</h4>
+DrawHTMLBarcode_EAN13(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_EAN13("12345678","yes","in",0,2,1,"bottom", "center","","black","white");
+<h4>EAN8</h4>
+DrawHTMLBarcode_EAN8(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_EAN8("12345678","yes","in",0,2,1,"bottom", "center","","black","white");
+<h4>UPCA</h4>
+DrawHTMLBarcode_UPCA(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_UPCA("12345678","yes","in",0,3,1,"bottom", "center","","black","white");
+<h4>UPCE</h4>
+DrawHTMLBarcode_UPCE(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_UPCE("12345678","yes","in",0,3,1,"bottom", "center","","black","white");
+<h4>EXT2</h4>
+DrawHTMLBarcode_EXT2(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_EXT2("12345678","yes","in",0,1,0.5,"bottom", "center","","black","white");
+<h4>EXT5</h4>
+DrawHTMLBarcode_EXT5(data,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i>Usage :</i><br /><br />
+DrawHTMLBarcode_EXT5("12345678","yes","in",0,1.5,0.5,"bottom", "center","","black","white");
+<h4>GS1 Databar 14</h4>
+DrawHTMLBarcode_GS1Databar14(data,linkage,humanReadable,units, minBarWidth,width,height, textLocation,textAlignment,textStyle,foreColor,backColor)
+<br /><br /><i><i>Usage :</i></i><br /><br />
+DrawHTMLBarcode_GS1Databar14("12345678",0,"yes","in",0,3,1,"bottom", "center","","black","white");
+				
+</body>
+</html>

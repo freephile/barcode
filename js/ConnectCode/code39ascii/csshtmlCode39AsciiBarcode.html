@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>HTML Code39 Ascii Barcode</title>
+    <script type="text/javascript" src="js/connectcode-javascript-code39ascii.js"></script>
+    <style type="text/css">
+  	#barcode {font-weight: normal; font-style: normal; line-height:normal; sans-serif; font-size: 12pt}
+    </style>
+</head>
+<body>
+
+Input : 12345678<br />
+Barcode : Code39 ASCII<br />
+Check Digit : 1 (On)<br /><br />
+
+Output : <br /><br />
+
+<div id="barcodecontainer" style="width:5in">
+<div id="barcode" >12345678</div>
+</div>
+
+<br />
+
+<script type="text/javascript">
+/* <![CDATA[ */
+  function get_object(id) {
+   var object = null;
+   if (document.layers) {
+    object = document.layers[id];
+   } else if (document.all) {
+    object = document.all[id];
+   } else if (document.getElementById) {
+    object = document.getElementById(id);
+   }
+   return object;
+  }
+get_object("barcode").innerHTML=DrawHTMLBarcode_Code39ASCII(get_object("barcode").innerHTML,1,"yes","in",0,3,1,3,"bottom","center","","black","white");
+/* ]]> */
+</script>
+
+</body>
+</html>
+

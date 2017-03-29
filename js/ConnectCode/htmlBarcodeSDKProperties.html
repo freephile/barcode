@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>HTML Barcode SDK Properties</title>
+</head>
+<body>
+
+<h2>HTML Barcode SDK Properties</h2>
+This section describes all the parameters and properties supported by the HTML Barcode SDK. 
+<ul>
+<li><b>data</b> - The raw data in text string to be encoded as a barcode. For example, "12345678".</li>
+<li>checkDigit - The check digit or check character used for redundancy check or error detection as required by the barcode specifications. 1 for Check Digit On and 0 for Check Digit Off. This parameter only applies to certain barcodes. Refer to the Javascript Barcode Application Programming Interface (API) for barcodes supporting this parameter.</li>
+<li><b>linkage</b> - The linkage field indicates whether there is a composite 2D barcode associated with this barcode. 1 for With Composite 2D barcode and 0 for Without Composite 2D barcode. This parameter is only supported by the GS1 Databar 14 barcode. </li>
+<li><b>gs1Compliance</b> - This parameter indicates whether to use the Strict GS1 Compliance option for creating the UCCEAN barcode. For legacy barcode scanners, use the value 0. For most modern GS1 UCC EAN barcode, use the value 1. This parameter only applies to the UCCEAN (GS1 EAN 128) barcode.</li>
+<li><b>humanReadable</b> - This parameter is used for specifying the human readable text that appears on top or below of the barcode: "yes" to display human readable text on the barcode and "no" to hide the human readable text. </li>
+<li><b>units</b> - "in" for inches and "cm" for centimeters. This option specifies the units (inches or centimeters) used by the minBarWidth, width and height parameters. For example, if "in" is used in this parameter. A width with the value of 2 means "2 inches" in width.</li>
+<li><b>minBarWidth</b> - When this parameter is set to 0, the barcode is generated according to the size of the width parameter. However, it is sometimes more convenient to specify the minBarWidth of the barcode especially in circumstances where the barcode needs to be created according to some industry standards. The minBarWidth can be specified in inches or centimeters according to the units parameter. The value specified will be rounded to two decimal places. The rounding to two decimal places is a result of significant testing by our team for generating high quality barcodes.</li>
+<li><b>width</b> - The width of the barcode in inches or centimeters. The minBarWidth parameter will be calculated first based on the specified width. Internally, the barcode is generated using vertical bars that have the same minBarWidth. This can sometimes result in a barcode that is slightly larger or smaller than the specified width. However, it is necessary as it ensures high quality barcodes even in the event that the barcode is stretched during/after printing.</li>
+<li><b>height</b> - The height of the barcode inches or centimeters.</li>
+<li><b>barWidthRatio</b> - The ratio of the thick to thin bars in the barcode. This parameter is only valid for certain barcodes.</li>
+<li><b>textLocation</b> - "top" for placing the human readable text on top of the barcode and "bottom for placing the human readable text below the barcode.</li>
+<li><b>textAlignment</b> - "left" for aligning the human readable text to the left of the barcode; "center" for aligning the human readable text to the center of the barcode; "right" for  aligning the human readable text to the right of the barcode.</li>
+<li><b>textStyle</b> - Any valid CSS font style. For example "font-family:arial;font-size:20pt" specifies to use the Arial font at a font size of 20 points.</li>
+<li><b>foreColor</b> - The color of the barcode. Defaults to "black". Any HTML colors according to the CSS specifications are allowed.</li>
+<li><b>backColor</b> - The background color of the barcode. Defaults to "white". Any HTML colors according to the CSS specifications are allowed.</li>
+</ul>
+<br />
+</body>
+</html>

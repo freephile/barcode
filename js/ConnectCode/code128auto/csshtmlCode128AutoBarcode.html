@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>HTML Code128Auto Barcode</title>
+    <script type="text/javascript" src="js/connectcode-javascript-code128auto.js"></script>
+    <style type="text/css">
+  	#barcode {font-weight: normal; font-style: normal; line-height:normal; sans-serif; font-size: 12pt}
+    </style>
+</head>
+<body>
+
+Input : 6139409309059052<br />
+Barcode : Code128Auto<br />
+Check Digit : N.A.<br /><br />
+
+Output : <br /><br />
+
+<div id="barcodecontainer" style="width:5in">
+<div id="barcode" >6139409309059052</div>
+</div>
+
+<br />
+
+<h2>The Actual Code</h2>
+<div id="greg" style="font-size:1.2em;">
+The code
+</div>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+  function get_object(id) {
+   var object = null;
+   if (document.layers) {
+    object = document.layers[id];
+   } else if (document.all) {
+    object = document.all[id];
+   } else if (document.getElementById) {
+    object = document.getElementById(id);
+   }
+   return object;
+  }
+get_object("barcode").innerHTML=DrawHTMLBarcode_Code128Auto(get_object("barcode").innerHTML,"yes","in",0,4,1,"bottom","center","","black","white");
+// var theCode=get_object("barcode").innerHTML;
+var theCode='6139409309059052';
+// alert(ConnectCode_Encode_Code128Auto(theCode));
+get_object("greg").innerHTML=ConnectCode_Encode_Code128Auto(theCode);
+/* ]]> */
+</script>
+
+</body>
+</html>
+
+
+
+
