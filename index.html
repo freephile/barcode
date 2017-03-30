@@ -4,10 +4,12 @@
 <head>
 <meta charset="utf-8" />
 <title>CSV-to-Table</title>
+    <!-- This file copyright Greg Rundlett eQuality Technology (c) 2017 -->
     <!-- includes for Code Conversion using ConnectCode's SDK -->
     <script type="text/javascript" src="js/ConnectCode/code128auto/js/connectcode-javascript-code128auto.js"></script>
     <style type="text/css">
         #barcode {font-weight: normal; font-style: normal; line-height:normal; sans-serif; font-size: 12pt}
+        td {padding:3px;}
     </style>
     <!-- includes for jQuery and CVS handling -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -16,19 +18,43 @@
 </head>
 
 <body>
-  <h1>Barcode Prep Tool</h1>
-  Using this form, you can prepare a CSV file for import into inDesign (with the HP SmartStream plugin) for printing barcodes
+  <h1>Code 128 Barcode Prep Tool</h1>
+  <p>Using this tool, you can prepare a <strong><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" title="Comma Separated Values">CSV</a></strong> file for import into inDesign (with the HP SmartStream plugin) for printing barcodes.  See <a href="#example">example</a> below.  This tool only displays barcodes for reference.  It will generate the <a href="https://en.wikipedia.org/wiki/Code_128">Code 128</a> barcode encoding, which is then added to your original data.</p>
+  <p>The data that you wish to encode MUST be in the first column of your input.</p>
+  <p>Test or Validate your data by uploading 100 or fewer records.</p>
+  <h2>Usage</h2>
+  <ol>
+        <li>Note that you should prepare your data in a spreadsheet, and then <em>use <strong>Save As</strong> to export your spreadsheet to the CSV format</em>.  This tool does not accept Microsoft Excel files, or any other format besides CSV</li>
+        <li>Click the 'Choose File' button, and select your input data file.
+        <li>After your data is uploaded, a <strong>Create download</strong> button will appear.
+        <li>Click the <code>Create download</code> button, which will in turn reveal a download link.
+        <li>Click the download link and finally save the new CSV file which contains the added column of Code 128 data
+
+  </ol>
   <div id="inputs" class="clearfix">
-    <input type="file" id="files" name="files[]" multiple />
+    <input type="file" id="files" name="files[]" />
   </div>
-  <hr />
+  
   <output id="list">
   </output>
-  <hr />
-  <table id="contents" style="width:100%; height:400px;" border>
+  
+<button id="create" style="display:none;">Create download</button>
+<br />
+<a download="info.txt" id="downloadlink" style="display:none;">Download</a>
+<!-- textarea id="textbox">Your inputs, plus 128 codes will appear here</textarea --> 
+
+  <div id="content-wrapper" style="display:none;">
+  <table id="contents" style="width:100%; height:40px; background-color:gray;" border>
+    <tr><td>Your data will appear here</td></tr>
   </table>
+  </div>
+
+  
+
 
   <script>
+    var myData = '';
+    
     $(document).ready(function() {
       if(isAPIAvailable()) {
         $('#files').bind('change', handleFileSelect);
@@ -87,74 +113,126 @@
       reader.onload = function(event){
         var csv = event.target.result;
         var data = $.csv.toArrays(csv);
-        var html = '';
-        if (data.length > limit) {
-            html = '<tr><td style="color:orange;">Output suppressed for sets over 100</td></tr>\r\n';
-            html += '<tr><td>Upload a smaller data set to see results onscreen.</td></tr>\r\n';
-        } else {
-            for(var row in data) {
-            html += '<tr>\r\n';
-            for(var item in data[row]) {
-                html += '<td>' + data[row][item] + '</td>\r\n';
-                if (data[row][item].length == 16) {
-                html += '<td>' + eqtEncode(data[row][item]) + '</td>\r\n';
-                }
-                if (row > 0 && item == 0) {
-                html += '<td>' + DrawHTMLBarcode_Code128Auto(data[row][item],"yes","in",0,labelWidth,labelHeight,"bottom","center","","black","white") + '</td>\r\n';
-                }
-            }
-            html += '</tr>\r\n';
-            }        
-        }
 
+        // copy data to a new array for export
+        var newData = Array.from(data);
+        
+        var html = '';
+        
+        var suppressTable = false;
+        
+        if (data.length > limit) {
+          suppressTable = true;
+        }
+        
+        var warnhtml = '<tr><td style="color:orange;">Output suppressed for sets over 100</td></tr>\r\n';
+            // warnhtml += '<tr><td>Upload a smaller data set to see results onscreen.</td></tr>\r\n';
+        
+        for(var row in data) {
+
+        html += '<tr>\r\n';
+        for(var item in data[row]) {
+            html += '<td>' + data[row][item] + '</td>\r\n';
+
+            // if (data[row][item].length == 16) {
+            if (item == 0) { // encode the first item
+                var encodedValue = ConnectCode_Encode_Code128Auto(data[row][item]);
+                html += '<td>' + encodedValue + '</td>\r\n';
+                newData[row].push(encodedValue);
+            }
+            // need to specifically handle header v. no header input
+            if (row > 0 && item == 0 && row < limit) {
+                html += '<td>' + DrawHTMLBarcode_Code128Auto(data[row][item],"yes","in",0,labelWidth,labelHeight,"bottom","center","","black","white") + '</td>\r\n';
+            }
+        }
+        html += '</tr>\r\n';
+        }        
+    
+        $('#content-wrapper').css('display', 'block');
+        $('#contents').css('background-color','white');
         $('#contents').html(html);
+        if (suppressTable) {
+            $('#contents').append(warnhtml);
+        }
+        $('#create').css('display', 'block');
+        
+        // stuff it into global scope
+        $(document).data('csv', $.csv.fromArrays(newData));
+        // console.log(newData);
+        // console.log($.csv.fromArrays(newData));        
+        
       };
       reader.onerror = function(){ alert('Unable to read ' + file.fileName); };
     }
     
-    function eqtEncode(data) {
-        // var theCode='6139409309059052';
-        return ConnectCode_Encode_Code128Auto(data);
-    }
-    
   </script>
+
   
   
-  <h2>Example</h2>
-  
-Input : 6139409309059052<br />
-Barcode format : Code128Auto<br />
-Check Digit : N.A.<br />
-Barcode : <br /><br />
-
-<div id="barcodecontainer" style="width:5in">
-<div id="barcode" >6139409309059052</div>
-</div>
-
-<br />
-
-<h2>The Actual Code</h2>
-<div id="greg" style="font-size:1.2em;">
-The code
-</div>
+    <h2 id="example">Example</h2>
+    
+    Input : 6139409309059052<br />
+    Barcode format : Code128Auto<br />
+    Check Digit : N.A.<br />
+    Barcode : <br />
+    <div id="barcodecontainer" style="width:5in;padding:10px;">
+        <div id="barcode" >6139409309059052</div>
+    </div>
+    The corresponding 128 Code : <br />
+    <div id="greg" style="font-size:1.2em; padding-left:100px;font-weight:bold;">
+    Computed...
+    </div>
 
 <script type="text/javascript">
 /* <![CDATA[ */
-  function get_object(id) {
-   var object = null;
-   if (document.layers) {
-    object = document.layers[id];
-   } else if (document.all) {
-    object = document.all[id];
-   } else if (document.getElementById) {
-    object = document.getElementById(id);
-   }
-   return object;
-  }
-get_object("barcode").innerHTML=DrawHTMLBarcode_Code128Auto(get_object("barcode").innerHTML,"yes","in",0,4,1,"bottom","center","","black","white");
+    function get_object(id) {
+        var object = null;
+        if (document.layers) {
+            object = document.layers[id];
+        } else if (document.all) {
+            object = document.all[id];
+        } else if (document.getElementById) {
+            object = document.getElementById(id);
+        }
+        return object;
+    }
+    
+    get_object("barcode").innerHTML=DrawHTMLBarcode_Code128Auto(get_object("barcode").innerHTML,"yes","in",0,4,.25,"bottom","center","","black","white");
 
-var theCode='6139409309059052';
-get_object("greg").innerHTML=ConnectCode_Encode_Code128Auto(theCode);
+    var theCode='6139409309059052';
+    get_object("greg").innerHTML=ConnectCode_Encode_Code128Auto(theCode);
+
+
+
+    (function () {
+    var textFile = null,
+    makeTextFile = function (text) {
+        var data = new Blob([text], {type: 'text/plain'});
+
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+        window.URL.revokeObjectURL(textFile);
+        }
+
+        textFile = window.URL.createObjectURL(data);
+
+        return textFile;
+    };
+
+
+    var create = get_object('create'),
+        textbox = get_object('textbox');
+
+    create.addEventListener('click', function () {
+        var link = document.getElementById('downloadlink');
+        // link.href = makeTextFile(textbox.value);
+        link.href = makeTextFile($(document).data('csv'));
+        link.style.display = 'block';
+    }, false);
+    })();
+
+
 /* ]]> */
 </script>
 
