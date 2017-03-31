@@ -19,6 +19,8 @@
             border-bottom: 1px solid #000;
         }
         td {padding:3px;}
+        .green {color:green;}
+        .largelabel {font-size:1.2em; padding-left:100px;font-weight:bold;}
         .footer {    
             padding: 10px;
             color: #464040;
@@ -44,17 +46,17 @@
 
 <body>
   <h1>Code 128 Barcode Prep Tool</h1>
-  <p>Using this tool, you can prepare a <strong><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" title="Comma Separated Values">CSV</a></strong> file for import into inDesign (with the HP SmartStream plugin) for printing barcodes.  See <a href="#example">example</a> below.  This tool only displays barcodes for reference.  It will generate the <a href="https://en.wikipedia.org/wiki/Code_128">Code 128</a> barcode encoding, which is then added to your original data.</p>
+  <p>This tool will generate the <a href="https://en.wikipedia.org/wiki/Code_128">Code 128</a> barcode encoding (<span class="green">in green below</span>).  You can download these codes, incorporated back into your original data. It displays "zebra" barcodes for reference and validation purposes. </p> See <a href="#example">example</a> below.</p>
+  <p>Using this tool, you can prepare a <strong><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" title="Comma Separated Values">CSV</a></strong> file for import into inDesign (with the HP SmartStream plugin) for printing barcodes.  
   <p>The data that you wish to encode MUST be in the first column of your input.</p>
   <p>Test or Validate your data by uploading 100 or fewer records.</p>
   <h2>Usage</h2>
   <ol>
-        <li>Note that you should prepare your data in a spreadsheet, and then <em>use <strong>Save As</strong> to export your spreadsheet to the CSV format</em>.  This tool does not accept Microsoft Excel files, or any other format besides CSV</li>
-        <li>Click the 'Choose File' button, and select your input data file.
-        <li>After your data is uploaded, a <strong>Create download</strong> button will appear.
-        <li>Click the <code>Create download</code> button, which will in turn reveal a download link.
-        <li>Click the download link and finally save the new CSV file which contains the added column of Code 128 data
-
+        <li>Note that you should prepare your data in a spreadsheet, and then <em>use <strong>Save As</strong> to export your spreadsheet to the CSV format</em>.  This tool does not accept Microsoft Excel files, or any other format besides CSV.</li>
+        <li>Click the 'Choose File' button, and select your input data file.</li>
+        <li>After your data is uploaded, a <strong>Create download</strong> button will appear.</li>
+        <li>Click the <code>Create download</code> button, which will in turn reveal a download link. (This may take several seconds if you have a large file.)</li>
+        <li>Click the download link and finally save the new CSV file.  This file will have all your original data, plus an added column of Code 128 data.</li>
   </ol>
   <div id="inputs" class="clearfix">
     <input type="file" id="files" name="files[]" />
@@ -198,13 +200,13 @@
     Input : 6139409309059052<br />
     Barcode format : Code128Auto<br />
     Check Digit : N.A.<br />
+    <span class="green">The corresponding 128 Code :</span> <br />
+    <div id="greg" class="green largelabel">
+    Computed...
+    </div>
     Barcode : <br />
     <div id="barcodecontainer" style="width:5in;padding:10px;">
         <div id="barcode" >6139409309059052</div>
-    </div>
-    The corresponding 128 Code : <br />
-    <div id="greg" style="font-size:1.2em; padding-left:100px;font-weight:bold;">
-    Computed...
     </div>
 
 <script type="text/javascript">
@@ -262,7 +264,7 @@
 </script>
 <div class="footer">
 Credits: <br />
-<div><span class="rotator">&copy;</span> Copyright <a href="https://eQuality-Tech.com" target="_new">eQuality Technology</a> 2017</div>
+<div><span class="rotator">&copy;</span> Copyright Greg Rundlett <a href="https://eQuality-Tech.com" target="_new">eQuality Technology</a> 2017</div>
 Licensed under <a href="LICENSE"><img class="footer-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/GPLv3_Logo.svg/88px-GPLv3_Logo.svg.png" alt="GPLv3" /></a> the GPL v3<br /> 
 ConnectCode's <a href="http://www.barcoderesource.com/htmlBarcode.shtml" target="_new">javascript libraries for encoding</a>.<br />
 Jon Ressig's <a href="https://jquery.com/" target="_new">jQuery</a><br />
