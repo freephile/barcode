@@ -45,10 +45,12 @@
 
 <body>
   <h1>Code 128 Barcode Prep Tool</h1>
-  <p>This tool will generate the <a href="https://en.wikipedia.org/wiki/Code_128">Code 128</a> barcode encoding (<span class="green">in green below</span>).  You can download these codes, incorporated back into your original data. It displays "zebra" barcodes for reference and validation purposes. </p> See <a href="#example">example</a> below.</p>
-  <p>Using this tool, you can prepare a <strong><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" title="Comma Separated Values">CSV</a></strong> file for import into inDesign (with the HP SmartStream plugin) for printing barcodes.  
+  <p>Code 128 barcodes are used extensively in packaging, shipping, and all kinds of industries. This tool will generate the <a href="https://en.wikipedia.org/wiki/Code_128">Code 128</a> barcode encoding (<span class="green">in green below</span>).  You can download these codes, incorporated back into your original data. It displays "zebra" barcodes for reference and validation purposes. The point of this tool is to generate the encoded value which is the neccessary precursor for generating the "zebra".</p>
+  <p>The tool handles subtypes 128A, 128B and 128C automatically. This means that you can encode any alphanumeric (or numeric) string value. See the 128C (numeric) <a href="#example">example</a> below.</p>
+  <p>Using this tool, you can prepare a <strong><a href="https://en.wikipedia.org/wiki/Comma-separated_values" target="_blank" title="Comma Separated Values">CSV</a></strong> file for import into Adobe InDesign (with the HP SmartStream plugin) for designing print media with barcodes.  
   <p>The data that you wish to encode MUST be in the first column of your input.</p>
-  <p>Test or Validate your data by uploading 100 or fewer records.</p>
+  <p>The first 10 records will be displayed so that you can test and validate the results.</p>
+  <p><strong>Privacy</strong>: This tool uses <strong>no</strong> server-side processing or cookies and does <strong>not</strong> store any of your data!  It is all done in the browser using JavaScript, HTML and CSS. Check the code for yourself in our <a href="https://github.com/freephile/barcode" target="_blank">GitHub repo</a></p>
   <h2>Usage</h2>
   <ol>
         <li>Note that you should prepare your data in a spreadsheet, and then <em>use <strong>Save As</strong> to export your spreadsheet to the CSV format</em>.  This tool does not accept Microsoft Excel files, or any other format besides CSV.</li>
@@ -71,7 +73,7 @@
 
   <div id="content-wrapper" style="display:none; overflow-x:auto;">
   <table id="contents" style="width:100%; height:40px; background-color:gray;" border>
-    <tr><td>Your data will appear here</td></tr>
+    <tr><td>Your data will appear here, but this whole application relies on JavaScript. Please enable JavaScript and reload the page.</td></tr>
   </table>
   </div>
 
@@ -110,9 +112,29 @@
       }
     }
 
+    /**
+      test if a string is suitable for encoding 
+      ie. str.match('/^[0-9a-z]+$/i')
+      charCodeAt() is mostly faster than a regex match
+      http://jsperf.com/alphanumeric-charcode-vs-regexp
+    */
+    function isAlphaNumeric(str) {
+        var code, i, len;
+
+        for (i = 0, len = str.length; i < len; i++) {
+            code = str.charCodeAt(i);
+            if (!(code > 47 && code < 58) && // numeric (0-9)
+                !(code > 64 && code < 91) && // upper alpha (A-Z)
+                !(code > 96 && code < 123)) { // lower alpha (a-z)
+            return false;
+            }
+        }
+        return true;
+    }
+
     function handleFileSelect(evt) {
       var files = evt.target.files; // FileList object
-      var file = files[0];
+      var file = files[0]; // we only handle a single file upload
 
       // read the file metadata
       var output = ''
@@ -130,10 +152,11 @@
 
     function printTable(file) {
       /* limit is a cutoff for NOT printing a Table when there are too many records */
-      var limit = 100;
+      var limit = 10;
       /* labelWidth and labelHeight change the display characteristics of the barcode labels*/
       var labelWidth = 1;
       var labelHeight = .5;
+      var warnhtml = '<tr><td style="color:orange;">Output suppressed for sets over ' + limit + '</td></tr>\r\n';
       var reader = new FileReader();
       reader.readAsText(file);
       reader.onload = function(event){
@@ -151,28 +174,24 @@
           suppressTable = true;
         }
         
-        var warnhtml = '<tr><td style="color:orange;">Output suppressed for sets over 100</td></tr>\r\n';
-            // warnhtml += '<tr><td>Upload a smaller data set to see results onscreen.</td></tr>\r\n';
-        
         for(var row in data) {
-
-        html += '<tr>\r\n';
-        for(var item in data[row]) {
-            html += '<td>' + data[row][item] + '</td>\r\n';
-
-            // if (data[row][item].length == 16) {
-            if (item == 0) { // encode the first item
-                var encodedValue = ConnectCode_Encode_Code128Auto(data[row][item]);
+             if (isAlphaNumeric(data[row][0])) { // check if the first item in the row is encodable and generate additional data/display items
+                var encodedValue = ConnectCode_Encode_Code128Auto(data[row][0]);
+                var label = DrawHTMLBarcode_Code128Auto(data[row][0],"yes","in",0,labelWidth,labelHeight,"bottom","center","","black","white");
+            } else {
+                var encodedValue, label = '';
+            }
+            if (row < limit) {
+                html += '<tr>\r\n';
+                for(var item in data[row]) {
+                    html += '<td>' + data[row][item] + '</td>\r\n';
+                }
                 html += '<td>' + encodedValue + '</td>\r\n';
-                newData[row].push(encodedValue);
+                html += '<td>' + label + '</td>\r\n';
+                html += '</tr>\r\n';
             }
-            // need to specifically handle header v. no header input
-            if (row > 0 && item == 0 && row < limit) {
-                html += '<td>' + DrawHTMLBarcode_Code128Auto(data[row][item],"yes","in",0,labelWidth,labelHeight,"bottom","center","","black","white") + '</td>\r\n';
-            }
+            newData[row].push(encodedValue);
         }
-        html += '</tr>\r\n';
-        }        
     
         $('#content-wrapper').css('display', 'block');
         $('#contents').css('background-color','white');
@@ -207,6 +226,7 @@
     <div id="barcodecontainer" style="width:5in;padding:10px;">
         <div id="barcode" >6139409309059052</div>
     </div>
+    <p>Want to try it? Use <a href="test/test.csv">this sample file</a>.  Need something more? <a href="https://equality-tech.com/contact">Contact Us</a>.</p>
 
 <script type="text/javascript">
 /* <![CDATA[ */
